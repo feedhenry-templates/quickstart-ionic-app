@@ -70,6 +70,7 @@ footer > div > small {
 .center {
     text-align: center;
     width: 100%;
+    margin-top: 5px;
 }
 .hello-result{
     margin: 20px 0px 0px 0px;

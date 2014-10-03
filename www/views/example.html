@@ -7,7 +7,7 @@
 
     <ion-content has-header="true" ng-controller="MainCtrl">
         <div class="row" >
-            <div id="main" class="col" >
+            <div id="main" class="col col-offset-10 col-80" >
                 <div class="item item-input-inset">
                     <label class="item-input-wrapper">
                         <input type="text" id="uInput" placeholder="Enter Your Name Here" ng-model="userInput">
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col"><h2 id="greeting"> <i class="icon {{textClassName}}"></i>  {{noticeMessage}}</h2></div>
+            <div class="col col-offset-10 col-80"><h2 id="greeting"> <i class="icon {{textClassName}}"></i>  {{noticeMessage}}</h2></div>
         </div>
     </ion-content>
 
