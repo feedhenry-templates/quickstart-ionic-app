@@ -1,8 +1,11 @@
-/*  
+/*
  *  Author: Colum Bennett <colum.bennett@feedhenry.com>
  *  Re-useable Angular service module using FeedHenry Hybrid API "$fh.cloud call.
  *  See developers docs, http://docs.feedhenry.com/
  */
+
+var $fh = require('fh-js-sdk');
+
 angular.module('fhcloud', ['ngResource']).service("fhcloud", function($q) {
 
   return function(cloudEndpoint, data) {
