@@ -1,4 +1,4 @@
-var angular = require("angular");
+window.angular = require("angular");
 require("angular-animate");
 require("angular-resource");
 require("angular-ui-router");
@@ -13,7 +13,7 @@ var myApp = angular.module('myApp', ['ionic', 'ngRoute',
     'myApp.services',
     'myApp.filters',
     'fhcloud'
-]);
+]).constant('$fh', require("fh-js-sdk"));
 
 myApp.config(function($routeProvider) {
 
