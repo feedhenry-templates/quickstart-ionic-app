@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var angular = require("angular");
+window.angular = require("angular");
 require("angular-animate");
 require("angular-resource");
 require("angular-ui-router");
@@ -14,7 +14,7 @@ var myApp = angular.module('myApp', ['ionic', 'ngRoute',
     'myApp.services',
     'myApp.filters',
     'fhcloud'
-]);
+]).constant('$fh', require("fh-js-sdk"));
 
 myApp.config(function($routeProvider) {
 
@@ -24,103 +24,7 @@ myApp.config(function($routeProvider) {
             controller: 'MainCtrl'
         });
 });
-},{"angular":17,"angular-animate":8,"angular-resource":10,"angular-route":12,"angular-sanitize":14,"angular-ui-router":15,"ionic-scripts":19}],2:[function(require,module,exports){
-var angular = require("angular");
-
-var myApp = angular.module('myApp.controllers', ['fhcloud']);
-
-myApp.controller('MainCtrl', function($scope, $q, fhcloud) {
-  // add function to pass userInput to cloud via
-  // $fh.cloud call to controller scope
-  $scope.sayHello = function() {
-    var userInput = $scope.userInput;
-
-    //Notifying the user that the cloud endpoint is being called.
-    $scope.noticeMessage = "Calling Cloud Endpoint";
-    $scope.textClassName = "ion-loading-c";
-
-    // check if userInput is defined
-    if (userInput) {
-      /**
-       * Pass the userInput to the service containing the $fh.cloud call.
-       *
-       * Notice that the defer.resolve and defer.reject functions are passed to the module.
-       * One of these functions will be called when the $fh.cloud function has completed successully or encountered
-       * an error.
-       */
-      fhcloud('hello', { hello: userInput })
-        .then(function(response){
-          // If successful, display the length  of the string.
-          if (response.msg != null && typeof(response.msg) !== 'undefined') {
-            $scope.noticeMessage = response.msg;
-            $scope.textClassName = "ion-checkmark-round";
-          } else {
-            $scope.noticeMessage  = "Error: Expected a message from $fh.cloud.";
-            $scope.textClassName = "ion-close-round";
-          }
-        })
-        .catch(function(msg, err){
-          //If the cloud call fails
-          $scope.noticeMessage = "$fh.cloud failed. Error: " + JSON.stringify(err);
-          $scope.textClassName = "ion-close-round";
-        });
-    }
-  };
-});
-},{"angular":17}],3:[function(require,module,exports){
-var angular = require("angular");
-
-var myApp = angular.module('myApp.directives', []);
-
-myApp.directive('fhfooter', function() {
-    return {
-        scope: {},
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'views/components/footer.html',
-        link: function(scope, elem, attrs, ctrl) {
-            scope.version = attrs.version;
-        }
-    };
-});
-},{"angular":17}],4:[function(require,module,exports){
-var angular = require("angular");
-
-var myApp = angular.module('myApp.filters', []);
-},{"angular":17}],5:[function(require,module,exports){
-/*
- *  Author: Colum Bennett <colum.bennett@feedhenry.com>
- *  Re-useable Angular service module using FeedHenry Hybrid API "$fh.cloud call.
- *  See developers docs, http://docs.feedhenry.com/
- */
-
-var $fh = require('fh-js-sdk');
-
-angular.module('fhcloud', ['ngResource']).service("fhcloud", function($q) {
-
-  return function(cloudEndpoint, data) {
-    var defer = $q.defer();
-
-    var params = {
-      path: cloudEndpoint,
-      method: "GET",
-      contentType: "application/json",
-      data: data,
-      timeout: 15000
-    };
-
-    $fh.cloud(params, defer.resolve, defer.reject);
-
-    return defer.promise;
-  };
-});
-},{"fh-js-sdk":18}],6:[function(require,module,exports){
-var angular = require("angular");
-
-var myApp = angular.module('myApp.services', []);
-
-myApp.factory('', function() {});
-},{"angular":17}],7:[function(require,module,exports){
+},{"angular":12,"angular-animate":3,"angular-resource":5,"angular-route":7,"angular-sanitize":9,"angular-ui-router":10,"fh-js-sdk":13,"ionic-scripts":14}],2:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4261,11 +4165,11 @@ angular.module('ngAnimate', [], function initAngularHelpers() {
 
 })(window, window.angular);
 
-},{}],8:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":7}],9:[function(require,module,exports){
+},{"./angular-animate":2}],4:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -5130,11 +5034,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],10:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":9}],11:[function(require,module,exports){
+},{"./angular-resource":4}],6:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -6205,11 +6109,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],12:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":11}],13:[function(require,module,exports){
+},{"./angular-route":6}],8:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -6949,11 +6853,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],14:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":13}],15:[function(require,module,exports){
+},{"./angular-sanitize":8}],10:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -11493,7 +11397,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],16:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -43262,11 +43166,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],17:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":16}],18:[function(require,module,exports){
+},{"./angular":11}],13:[function(require,module,exports){
 (function (global){
 !function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.feedhenry=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 (function (global){
@@ -56838,11 +56742,11 @@ module.exports = {
 (19)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],19:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = window.ionic = {};
 require('ionic-sdk/release/js/ionic');
 require('ionic-sdk/release/js/ionic-angular');
-},{"ionic-sdk/release/js/ionic":21,"ionic-sdk/release/js/ionic-angular":20}],20:[function(require,module,exports){
+},{"ionic-sdk/release/js/ionic":16,"ionic-sdk/release/js/ionic-angular":15}],15:[function(require,module,exports){
 /*!
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
@@ -70887,7 +70791,7 @@ IonicModule
 });
 
 })();
-},{}],21:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*!
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
@@ -84186,4 +84090,4 @@ ionic.views.Slider = ionic.views.View.inherit({
 })(ionic);
 
 })();
-},{}]},{},[1,2,3,4,5,6]);
+},{}]},{},[1]);
