@@ -21,7 +21,7 @@ myApp.controller('MainCtrl', function($scope, $q, fhcloud) {
        */
       fhcloud('hello', { hello: userInput })
         .then(function(response){
-          // If successful, display the length  of the string.
+          // If successful, display response.msg.
           if (response.msg != null && typeof(response.msg) !== 'undefined') {
             $scope.noticeMessage = response.msg;
             $scope.textClassName = "ion-checkmark-round";
@@ -30,7 +30,7 @@ myApp.controller('MainCtrl', function($scope, $q, fhcloud) {
             $scope.textClassName = "ion-close-round";
           }
         })
-        .catch(function(msg, err){
+        .catch(function(err){
           //If the cloud call fails
           $scope.noticeMessage = "$fh.cloud failed. Error: " + JSON.stringify(err);
           $scope.textClassName = "ion-close-round";
